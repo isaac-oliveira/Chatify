@@ -3,6 +3,7 @@ import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { ThemeProvider } from 'styled-components';
 
+import AuthProvider from './provider/AuthProvider';
 import Routes from './routes';
 import theme from './themes';
 
@@ -14,9 +15,11 @@ const App = () => {
 				backgroundColor={theme.colors.primary}
 			/>
 			<ThemeProvider theme={theme}>
-				<NavigationContainer>
-					<Routes />
-				</NavigationContainer>
+				<AuthProvider>
+					<NavigationContainer>
+						<Routes />
+					</NavigationContainer>
+				</AuthProvider>
 			</ThemeProvider>
 		</SafeAreaView>
 	);
