@@ -1,0 +1,7 @@
+node_modules/
+android/
+ios/
+.jest/
+google-services.json
+yarn.lock
+firebase.json
