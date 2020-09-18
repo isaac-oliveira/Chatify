@@ -1,9 +1,10 @@
 import React from 'react';
 
 import AuthRouter from './AuthRouter';
-import useAuth from '../hooks/useAuth';
+import AppRouter from './AppRouter';
+
 import Splash from '../pages/Splash';
-import Home from '../pages/Home';
+import useAuth from '../hooks/useAuth';
 
 const Routes = () => {
 	const { logged } = useAuth();
@@ -16,7 +17,7 @@ const Routes = () => {
 		return <AuthRouter />;
 	}
 
-	return <Home />;
+	return <AppRouter />;
 };
 
 export default Routes;
