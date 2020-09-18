@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { Dimensions } from 'react-native';
+import { ActivityIndicator, Dimensions } from 'react-native';
 
 const { width, fontScale } = Dimensions.get('window');
 
@@ -27,4 +27,9 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
 export const Title = styled.Text<TitleProps>`
 	color: ${({ color }) => color};
 	font-size: ${18 * fontScale}px;
+`;
+
+export const Loading = styled(ActivityIndicator)`
+	position: absolute;
+	left: 10px;
 `;

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import { useTheme } from 'styled-components';
-import { Container, Title } from './styles';
+import { Container, Loading, Title } from './styles';
 
 interface ButtonProps {
 	border?: boolean;
@@ -10,8 +10,17 @@ interface ButtonProps {
 	onPress?: () => void;
 }
 
-const Button: React.FC<ButtonProps> = (props) => {
+export interface ButtonRef {
+	loading: boolean;
+	showLoading(): void;
+	hideLoading(): void;
+}
+
+interface FRRF<T, P> extends React.ForwardRefRenderFunction<T, P> {}
+
+const Button: FRRF<ButtonRef, ButtonProps> = (props, ref) => {
 	const { colors } = useTheme();
+	const [loading, setLoading] = useState(false);
 
 	const {
 		title,
@@ -21,11 +30,28 @@ const Button: React.FC<ButtonProps> = (props) => {
 		onPress = () => {},
 	} = props;
 
+	useImperativeHandle(ref, () => ({
+		loading,
+		showLoading: () => setLoading(true),
+		hideLoading: () => setLoading(false),
+	}));
+
 	return (
-		<Container border={border} color={color} onPress={onPress}>
+		<Container
+			disabled={loading}
+			border={border}
+			color={color}
+			onPress={onPress}
+		>
 			<Title color={border ? color : titleColor}>{title}</Title>
+			{loading && (
+				<Loading
+					size="small"
+					color={border ? colors.secundary : colors.primary}
+				/>
+			)}
 		</Container>
 	);
 };
 
-export default Button;
+export default forwardRef(Button);

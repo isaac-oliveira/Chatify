@@ -10,7 +10,7 @@ import { useTheme } from 'styled-components';
 
 import { TextInput } from './styles';
 
-interface InputRef {
+export interface InputRef {
 	focus(): void;
 	value: string;
 }
@@ -20,7 +20,7 @@ interface FRRF<T, P> extends React.ForwardRefRenderFunction<T, P> {}
 const Input: FRRF<InputRef, TextInputProps> = (props, ref) => {
 	const { colors } = useTheme();
 	const inputRef = useRef<RNTextInput>(null);
-	const [value, setValue] = useState<string>('');
+	const [value, setValue] = useState<string>(String(props?.defaultValue || ''));
 
 	useImperativeHandle(ref, () => ({
 		focus: () => {
