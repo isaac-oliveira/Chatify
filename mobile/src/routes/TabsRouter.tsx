@@ -4,6 +4,8 @@ import Home from '../pages/Home';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
+//mdi_speaker_notes
+//mdi_add_comment
 const TabsRouter = () => {
 	return (
 		<Navigator>

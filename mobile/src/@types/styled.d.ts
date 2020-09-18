@@ -11,8 +11,8 @@ declare module 'styled-components' {
 			delete: string;
 			messageRecieve: string;
 			messageSend: string;
-			activeIcon: string;
-			inactiveIcon: string;
+			active: string;
+			inactive: string;
 			placeholder: string;
 		};
 	}
