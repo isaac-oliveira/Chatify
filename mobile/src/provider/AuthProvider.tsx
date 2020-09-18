@@ -42,10 +42,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 	}
 
 	async function register(user: UserRegister) {
-		console.log(user);
-		setTimeout(() => {
+		const { ok, ...response } = await api.post('/register', user);
+
+		if (ok) {
+			const data = response.data as ResponseSuccess;
+			await AsyncStorage.setItem('@chatify/token', data.token);
 			setLogged(true);
-		}, 2000);
+		} else {
+			const data = response.data as ResponseError;
+
+			Alert.alert('Ops!', data?.error || 'Servidor não está respondendo');
+		}
 	}
 
 	async function logout() {
