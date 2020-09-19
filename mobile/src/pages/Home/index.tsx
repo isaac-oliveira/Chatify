@@ -1,19 +1,17 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import Button from '../../components/Button';
-import useAuth from '../../hooks/useAuth';
 
 const Home = () => {
-	const { logout } = useAuth();
-
-	function handleLogout() {
-		logout();
-	}
-
 	return (
-		<View>
+		<View
+			style={{
+				flex: 1,
+				justifyContent: 'center',
+				alignItems: 'center',
+				backgroundColor: '#16F4D0',
+			}}
+		>
 			<Text>Home</Text>
-			<Button title="Sair" onPress={handleLogout} />
 		</View>
 	);
 };
