@@ -6,7 +6,7 @@ import { AuthContext, UserLogin, UserRegister } from '../hooks/useAuth';
 import api from '../services/api';
 
 interface AuthProviderProps {
-	children: React.ReactNode;
+	children: JSX.Element;
 }
 
 interface ResponseSuccess {

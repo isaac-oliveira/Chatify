@@ -1,9 +1,10 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
-import Home from '../pages/Home';
 import { useTheme } from 'styled-components';
+
+import Chats from '../pages/Chats';
+import Users from '../pages/Users';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -44,8 +45,8 @@ const TabsRouter = () => {
 				tabBarIcon: (props) => <TabBarIcon {...props} name={name} />,
 			})}
 		>
-			<Screen name="Chats" component={Home} />
-			<Screen name="Users" component={Home} />
+			<Screen name="Chats" component={Chats} />
+			<Screen name="Users" component={Users} />
 		</Navigator>
 	);
 };

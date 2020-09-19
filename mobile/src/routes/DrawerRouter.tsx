@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import TabsRouter from './TabsRouter';
 import DrawerContent from '../components/DrawerContent';
 import useAuth from '../hooks/useAuth';
+import Profile from '../pages/Profile';
 
 const { Navigator, Screen } = createDrawerNavigator();
 
@@ -51,7 +52,7 @@ const DrawerRouter = () => {
 			})}
 		>
 			<Screen name="Tabs" component={TabsRouter} />
-			<Screen name="Profile" component={TabsRouter} />
+			<Screen name="Profile" component={Profile} />
 		</Navigator>
 	);
 };
