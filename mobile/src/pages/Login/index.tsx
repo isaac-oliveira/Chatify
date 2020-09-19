@@ -1,9 +1,11 @@
 import React, { useRef } from 'react';
+import { Alert } from 'react-native';
 
 import Button, { ButtonRef } from '../../components/Button';
 import Input, { InputRef } from '../../components/Input';
 import Logo from '../../components/Logo';
 import useAuth from '../../hooks/useAuth';
+import verifyInputsAreEmpty from '../../utils/verifyInputsAreEmpty';
 
 import { ButtonContainer, Container, InputContainer } from './styles';
 
@@ -15,16 +17,31 @@ const Login = () => {
 
 	async function handleLogin() {
 		if (!loginRef.current?.loading) {
-			loginRef.current?.showLoading();
-			const email = emailRef.current?.value;
-			const password = passwordRef.current?.value;
+			const email = emailRef.current?.value || '';
+			const password = passwordRef.current?.value || '';
 
-			if (email && password) {
-				await login({ email, password });
+			const message = verifyInputsAreEmpty([
+				{ value: email, name: 'e-mail' },
+				{ value: password, name: 'senha' },
+			]);
+
+			if (message) {
+				Alert.alert('Ops!', message);
+				return;
 			}
 
+			loginRef.current?.showLoading();
+			await login({ email, password });
 			loginRef.current?.hideLoading();
 		}
+	}
+
+	function emailSubmit() {
+		passwordRef.current?.focus();
+	}
+
+	function passwordSubmit() {
+		handleLogin();
 	}
 
 	return (
@@ -34,13 +51,16 @@ const Login = () => {
 				<Input
 					ref={emailRef}
 					placeholder="E-mail"
-					defaultValue="isaac@gmail.com"
+					keyboardType="email-address"
+					returnKeyType="next"
+					onSubmitEditing={emailSubmit}
 				/>
 				<Input
 					ref={passwordRef}
 					placeholder="Senha"
-					defaultValue="12345"
 					secureTextEntry
+					returnKeyType="done"
+					onSubmitEditing={passwordSubmit}
 				/>
 			</InputContainer>
 			<ButtonContainer>
