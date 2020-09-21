@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -18,21 +18,44 @@ interface ResponseError {
 	error: string;
 }
 
+interface ObjectKeyString {
+	[key: string]: any;
+}
+
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 	const [logged, setLogged] = useState<boolean | null>(null);
+	const [userId, setUserId] = useState<number | null>(null);
+
+	const listOfSetItem = useMemo<ObjectKeyString>(
+		() => ({
+			['@chatify/token']: (value: string) => setLogged(!!value),
+			['@chatify/userId']: (value: string) => setUserId(Number(value)),
+		}),
+		[],
+	);
 
 	useEffect(() => {
-		AsyncStorage.getItem('@chatify/token').then((token) => {
-			setLogged(!!token);
-		});
-	}, []);
+		AsyncStorage.multiGet(['@chatify/token', '@chatify/userId']).then(
+			(result) => {
+				for (const item of result) {
+					const [key, value] = item;
+					const setItem = listOfSetItem[key];
+
+					setItem(value);
+				}
+			},
+		);
+	}, [listOfSetItem]);
 
 	async function login(user: UserLogin) {
 		const { ok, ...response } = await api.post('/login', user);
 
 		if (ok) {
 			const data = response.data as ResponseSuccess;
-			await AsyncStorage.setItem('@chatify/token', data.token);
+			const firstItem = ['@chatify/token', data.token];
+			const secondItem = ['@chatify/userId', JSON.stringify(data.id)];
+			await AsyncStorage.multiSet([firstItem, secondItem]);
+
 			setLogged(true);
 		} else {
 			const data = response.data as ResponseError;
@@ -46,7 +69,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 		if (ok) {
 			const data = response.data as ResponseSuccess;
-			await AsyncStorage.setItem('@chatify/token', data.token);
+			const firstItem = ['@chatify/token', data.token];
+			const secondItem = ['@chatify/userId', JSON.stringify(data.id)];
+			await AsyncStorage.multiSet([firstItem, secondItem]);
+
 			setLogged(true);
 		} else {
 			const data = response.data as ResponseError;
@@ -61,7 +87,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 	}
 
 	return (
-		<AuthContext.Provider value={{ logged, login, register, logout }}>
+		<AuthContext.Provider value={{ logged, userId, login, register, logout }}>
 			{children}
 		</AuthContext.Provider>
 	);

@@ -11,6 +11,7 @@ export interface UserRegister extends UserLogin {
 
 interface IAuth {
 	logged: boolean | null;
+	userId: number | null;
 	login(user: UserLogin): Promise<void>;
 	register(user: UserRegister): Promise<void>;
 	logout(): void;

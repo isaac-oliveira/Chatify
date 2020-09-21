@@ -54,6 +54,7 @@ const Login = () => {
 					keyboardType="email-address"
 					returnKeyType="next"
 					onSubmitEditing={emailSubmit}
+					defaultValue="isaac@gmail.com"
 				/>
 				<Input
 					ref={passwordRef}
@@ -61,6 +62,7 @@ const Login = () => {
 					secureTextEntry
 					returnKeyType="done"
 					onSubmitEditing={passwordSubmit}
+					defaultValue="12345"
 				/>
 			</InputContainer>
 			<ButtonContainer>
