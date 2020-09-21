@@ -44,8 +44,16 @@ const Profile = () => {
 			<Card>
 				<Title>Informações pessoais</Title>
 				<Content>
-					<Input color={colors.inputDark} />
-					<Input color={colors.inputDark} />
+					<Input
+						color={colors.inputDark}
+						defaultValue="isaac@gmail.com"
+						editable={false}
+					/>
+					<Input
+						color={colors.inputDark}
+						defaultValue="12345"
+						editable={false}
+					/>
 				</Content>
 				<ButtonContainer>
 					<Button
