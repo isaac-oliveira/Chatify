@@ -4,6 +4,8 @@ const themes = {
 		secundary: '#FFFFFF',
 		textPrimary: '#000000',
 		textSecundary: '#808080',
+		inputLight: '#FFFFFF',
+		inputDark: '#000000',
 		new: '#00FF19',
 		delete: '#F41616',
 		messageRecieve: '#FFFFFF',

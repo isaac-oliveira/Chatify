@@ -1,9 +1,14 @@
 import styled from 'styled-components/native';
 
-export const TextInput = styled.TextInput`
-	border-color: ${({ theme }) => theme.colors.secundary};
+interface TextInputProps {
+	color?: string;
+}
+
+export const TextInput = styled.TextInput<TextInputProps>`
+	border-color: ${({ theme, color }) =>
+		color ? color : theme.colors.inputLight};
 	border-bottom-width: 2px;
-	color: ${({ theme }) => theme.colors.secundary};
+	color: ${({ theme, color }) => (color ? color : theme.colors.inputLight)};
 	margin: 10px;
 	font-size: 18px;
 `;

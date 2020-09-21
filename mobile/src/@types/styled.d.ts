@@ -7,6 +7,8 @@ declare module 'styled-components' {
 			secundary: string;
 			textPrimary: string;
 			textSecundary: string;
+			inputLight: string;
+			inputDark: string;
 			new: string;
 			delete: string;
 			messageRecieve: string;
