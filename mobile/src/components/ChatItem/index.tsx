@@ -23,11 +23,12 @@ export interface Chat {
 
 interface ChatItemProps {
 	chat: Chat;
+	onPress(): void;
 }
 
-const ChatItem: React.FC<ChatItemProps> = ({ chat }) => {
+const ChatItem: React.FC<ChatItemProps> = ({ chat, onPress }) => {
 	return (
-		<ItemContainer>
+		<ItemContainer onPress={onPress}>
 			<Avatar source={avatar} />
 			<CenterView>
 				<Title>{chat.name}</Title>

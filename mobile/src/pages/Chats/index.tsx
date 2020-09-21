@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { ListRenderItem, ListRenderItemInfo, Text } from 'react-native';
 
@@ -16,8 +17,16 @@ type ItemRender = ListRenderItem<Chat>;
 type ItemInfo = ListRenderItemInfo<Chat>;
 
 const Chats = () => {
+	const { navigate } = useNavigation();
+
 	const renderItem: ItemRender = (props: ItemInfo) => {
-		return <ChatItem chat={props.item} />;
+		function handleItem() {
+			navigate('Messages', {
+				userId: props.item.id,
+			});
+		}
+
+		return <ChatItem chat={props.item} onPress={handleItem} />;
 	};
 
 	return (
