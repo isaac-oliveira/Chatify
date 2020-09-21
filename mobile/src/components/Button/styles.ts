@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import { ActivityIndicator, Dimensions } from 'react-native';
 
-const { width, fontScale } = Dimensions.get('window');
+const { width, fontScale } = Dimensions.get('screen');
 
 interface ContainerProps {
 	border?: boolean;

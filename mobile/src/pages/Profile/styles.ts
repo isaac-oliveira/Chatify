@@ -1,11 +1,13 @@
 import styled from 'styled-components/native';
 import { Dimensions } from 'react-native';
 
-const { width } = Dimensions.get('window');
+const { height, width } = Dimensions.get('screen');
 
 const imageSize = width * 0.45;
+const buttonWidth = width * 0.75;
+const buttonHeight = height * 0.06;
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
 	flex: 1;
 	background-color: ${(props) => props.theme.colors.primary};
 `;
@@ -38,7 +40,9 @@ export const Content = styled.View`
 `;
 
 export const ButtonContainer = styled.View`
-	width: ${width * 0.7}px;
+	width: ${buttonWidth}px;
+	height: ${buttonHeight}px;
+	margin-vertical: 10px;
 	align-self: center;
 `;
 

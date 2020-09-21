@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import { Dimensions } from 'react-native';
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('screen');
 
 const inputWidth = width * 0.8;
 const buttonWidth = width * 0.75;
