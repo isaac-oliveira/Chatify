@@ -11,11 +11,12 @@ export interface User {
 
 interface UserItemProps {
 	user: User;
+	onPress(): void;
 }
 
-const UserItem: React.FC<UserItemProps> = ({ user }) => {
+const UserItem: React.FC<UserItemProps> = ({ user, onPress }) => {
 	return (
-		<ItemContainer>
+		<ItemContainer onPress={onPress}>
 			<Avatar source={avatar} />
 			<CenterView>
 				<Title>{user.name}</Title>

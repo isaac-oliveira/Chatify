@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { ListRenderItem, ListRenderItemInfo } from 'react-native';
 
@@ -16,8 +17,15 @@ type ItemRender = ListRenderItem<User>;
 type ItemInfo = ListRenderItemInfo<User>;
 
 const Users = () => {
+	const { navigate } = useNavigation();
+
 	const renderItem: ItemRender = (props: ItemInfo) => {
-		return <UserItem user={props.item} />;
+		function handleItem() {
+			navigate('Messages', {
+				userId: props.item.id,
+			});
+		}
+		return <UserItem user={props.item} onPress={handleItem} />;
 	};
 
 	return (
