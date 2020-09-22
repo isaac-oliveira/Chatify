@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTheme } from 'styled-components';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
 
 import Header from '../../components/Header';
-
 import Button from '../../components/Button';
 
 import {
@@ -18,16 +17,28 @@ import {
 } from './styles';
 
 import avatar from '../../assets/images/user_big.png';
-import Input from '../../components/Input';
+import Input, { InputRef } from '../../components/Input';
 
 type DrawerProps = DrawerNavigationProp<{}>;
 
 const Profile = () => {
 	const { colors } = useTheme();
 	const { openDrawer } = useNavigation<DrawerProps>();
+	const [editing, setEditing] = useState<boolean>(false);
+	const nameRef = useRef<InputRef>(null);
+
+	useEffect(() => {
+		if (editing) {
+			nameRef.current?.focus();
+		}
+	}, [editing]);
 
 	function handleButtonLeft() {
 		openDrawer();
+	}
+
+	function handleEditAndSave() {
+		setEditing(!editing);
 	}
 
 	return (
@@ -45,22 +56,23 @@ const Profile = () => {
 				<Title>Informações pessoais</Title>
 				<Content>
 					<Input
-						color={colors.inputDark}
-						defaultValue="isaac@gmail.com"
-						editable={false}
+						ref={nameRef}
+						color={editing ? colors.inputDark : colors.textSecundary}
+						defaultValue="Isaac Oliveira"
+						editable={editing}
 					/>
 					<Input
-						color={colors.inputDark}
-						defaultValue="12345"
-						editable={false}
+						color={editing ? colors.inputDark : colors.textSecundary}
+						defaultValue="isaac@gmail.com"
+						editable={editing}
 					/>
 				</Content>
 				<ButtonContainer>
 					<Button
-						title="Editar"
+						title={editing ? 'Salvar' : 'Editar'}
 						titleColor={colors.secundary}
 						color={colors.primary}
-						onPress={() => {}}
+						onPress={handleEditAndSave}
 					/>
 				</ButtonContainer>
 			</Card>
