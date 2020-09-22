@@ -5,6 +5,7 @@ import { useTheme } from 'styled-components';
 
 import { TextInput } from './styles';
 import Header from '../Header';
+import { BackHandler } from 'react-native';
 
 interface HeaderSearchProps {
 	title: string;
@@ -20,6 +21,27 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
 	const { title, onChangeSearch } = props;
 
 	const { openDrawer, addListener } = useNavigation<DrawerProps>();
+
+	useEffect(() => {
+		const backHandler = BackHandler.addEventListener(
+			'hardwareBackPress',
+			() => {
+				let searchShown: boolean = false;
+				setSearchVisible((state: boolean) => {
+					searchShown = state;
+					if (state) {
+						return false;
+					}
+					return state;
+				});
+
+				return searchShown;
+			},
+		);
+		return () => {
+			backHandler.remove();
+		};
+	}, []);
 
 	useEffect(() => {
 		const unsubscribe = addListener('blur', () => setSearchVisible(false));
