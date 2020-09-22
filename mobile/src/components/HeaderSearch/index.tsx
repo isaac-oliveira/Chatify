@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from 'styled-components';
+import { BackHandler, TextInput as RNTextInput } from 'react-native';
 
 import { TextInput } from './styles';
 import Header from '../Header';
-import { BackHandler } from 'react-native';
 
 interface HeaderSearchProps {
 	title: string;
@@ -16,6 +16,7 @@ type DrawerProps = DrawerNavigationProp<{}>;
 
 const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
 	const { colors } = useTheme();
+	const inputRef = useRef<RNTextInput>(null);
 	const [query, setQuery] = useState<string>('');
 	const [searchVisible, setSearchVisible] = useState<boolean>(false);
 	const { title, onChangeSearch } = props;
@@ -50,6 +51,12 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
 	}, [addListener]);
 
 	useEffect(() => {
+		if (searchVisible) {
+			inputRef.current?.focus();
+		}
+	}, [searchVisible]);
+
+	useEffect(() => {
 		if (onChangeSearch) {
 			onChangeSearch(query);
 		}
@@ -72,6 +79,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
 	const ContentCenter = () => {
 		return (
 			<TextInput
+				ref={inputRef}
 				value={query}
 				onChangeText={setQuery}
 				placeholder="Pesquisa"
