@@ -29,7 +29,6 @@ const messagesDef = [
 	{ id: 1, text: 'Oi', userId: 1 },
 	{ id: 2, text: 'Oi', userId: 3 },
 	{ id: 3, text: 'Tudo bom?', userId: 1 },
-	{ id: 4, text: 'Erick lindo', userId: 3 },
 ].reverse() as Message[];
 
 const Messages = () => {
@@ -56,6 +55,7 @@ const Messages = () => {
 				};
 				return [newMessage, ...state];
 			});
+			inputRef.current?.clear();
 		}
 	}
 

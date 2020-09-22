@@ -4,14 +4,14 @@ import React, {
 	useRef,
 	useState,
 } from 'react';
-import { TextInputProps } from 'react-native';
-import { TextInput as RNTextInput } from 'react-native';
+import { TextInput as RNTextInput, TextInputProps } from 'react-native';
 import { useTheme } from 'styled-components';
 
 import { TextInput } from './styles';
 
 export interface InputRef {
 	focus(): void;
+	clear(): void;
 	value: string;
 }
 
@@ -29,6 +29,9 @@ const Input: FRRF<InputRef, InputProps> = (props, ref) => {
 	useImperativeHandle(ref, () => ({
 		focus: () => {
 			inputRef.current?.focus();
+		},
+		clear: () => {
+			setValue('');
 		},
 		value: value,
 	}));
