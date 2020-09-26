@@ -1,28 +1,39 @@
-import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-import { ListRenderItem, ListRenderItemInfo, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { ListRenderItem, ListRenderItemInfo } from 'react-native';
 
 import ChatItem, { Chat } from '../../components/ChatItem';
 import HeaderSearch from '../../components/HeaderSearch';
 import List from '../../components/List';
 
 import { Container } from './styles';
-
-const data = [
-	{ id: 1, name: 'Isaac', message: 'Iaê', viewed: false, time: '00:00' },
-	{ id: 2, name: 'Iasmim', message: 'Iaê', viewed: true, time: '00:00' },
-] as Chat[];
+import { getChats } from '../../database/chat';
+import useMessage from '../../hooks/useMessage';
 
 type ItemRender = ListRenderItem<Chat>;
 type ItemInfo = ListRenderItemInfo<Chat>;
 
 const Chats = () => {
-	const { navigate } = useNavigation();
+	const { addListener, navigate } = useNavigation();
+	const [chats, setChats] = useState(getChats());
+
+	const { subscribe } = useMessage();
+
+	useEffect(() => {
+		const unsubscribe = addListener('focus', () => {
+			setChats(getChats());
+			subscribe(() => {
+				setChats(getChats());
+			});
+		});
+		return unsubscribe;
+	}, [subscribe, addListener]);
 
 	const renderItem: ItemRender = (props: ItemInfo) => {
 		function handleItem() {
 			navigate('Messages', {
 				userId: props.item.id,
+				name: props.item.name,
 			});
 		}
 
@@ -33,7 +44,7 @@ const Chats = () => {
 		<Container>
 			<HeaderSearch title="Chats" onChangeSearch={() => {}} />
 			<List<Chat>
-				data={data}
+				data={chats}
 				keyExtractor={(item) => String(item.id)}
 				renderItem={renderItem}
 			/>

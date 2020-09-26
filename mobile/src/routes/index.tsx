@@ -5,6 +5,7 @@ import AppRouter from './AppRouter';
 
 import Splash from '../pages/Splash';
 import useAuth from '../hooks/useAuth';
+import MessageProvider from '../provider/MessageProvider';
 
 const Routes = () => {
 	const { logged } = useAuth();
@@ -17,7 +18,11 @@ const Routes = () => {
 		return <AuthRouter />;
 	}
 
-	return <AppRouter />;
+	return (
+		<MessageProvider>
+			<AppRouter />
+		</MessageProvider>
+	);
 };
 
 export default Routes;

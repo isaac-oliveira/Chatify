@@ -12,7 +12,8 @@ import {
 export interface Message {
 	id: number;
 	text: string;
-	userId: number;
+	sendUserId: number;
+	receivedUserId: number;
 }
 
 interface MessageItemProps {
@@ -22,7 +23,7 @@ interface MessageItemProps {
 const MessageItem: React.FC<MessageItemProps> = ({ message }) => {
 	const { userId } = useAuth();
 
-	if (message.userId === userId) {
+	if (message.sendUserId === userId) {
 		return (
 			<MessageSendContainer>
 				<MessageSendText>{message.text}</MessageSendText>

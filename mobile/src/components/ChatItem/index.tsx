@@ -15,7 +15,7 @@ import avatar from '../../assets/images/user_small.png';
 
 export interface Chat {
 	id: number;
-	name: string;
+	name?: string;
 	message: string;
 	viewed: boolean;
 	time: string;

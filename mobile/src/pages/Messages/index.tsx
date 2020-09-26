@@ -1,5 +1,10 @@
-import React, { useRef, useState } from 'react';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+	RouteProp,
+	useFocusEffect,
+	useNavigation,
+	useRoute,
+} from '@react-navigation/native';
 import { useTheme } from 'styled-components';
 
 import List from '../../components/List';
@@ -18,27 +23,30 @@ import {
 } from './styles';
 
 import avatar from '../../assets/images/user_small.png';
+import { getMessages } from '../../database/messages';
+import useMessage from '../../hooks/useMessage';
 
 type ParamList = {
 	Detail: {
 		userId: number;
+		name: string;
 	};
 };
-
-const messagesDef = [
-	{ id: 1, text: 'Oi', userId: 1 },
-	{ id: 2, text: 'Oi', userId: 3 },
-	{ id: 3, text: 'Tudo bom?', userId: 1 },
-].reverse() as Message[];
 
 const Messages = () => {
 	const { colors } = useTheme();
 	const { params } = useRoute<RouteProp<ParamList, 'Detail'>>();
 	const inputRef = useRef<InputRef>(null);
-	const [messages, setMessages] = useState<Message[]>(messagesDef);
 	const { goBack } = useNavigation();
+	const initalMessage = getMessages(params.userId);
+	const [messages, setMessages] = useState(initalMessage);
+	const { subscribe, sendMessage } = useMessage();
 
-	console.log(params.userId);
+	useEffect(() => {
+		subscribe((data: any) => {
+			setMessages((state) => [data, ...state]);
+		});
+	}, [subscribe]);
 
 	function handleBack() {
 		goBack();
@@ -47,14 +55,7 @@ const Messages = () => {
 	function handleSend() {
 		const message = inputRef.current?.value;
 		if (message) {
-			setMessages((state) => {
-				const newMessage = {
-					id: Math.random() + 10,
-					text: message,
-					userId: 3,
-				};
-				return [newMessage, ...state];
-			});
+			sendMessage({ userId: params.userId, name: params.name, message });
 			inputRef.current?.clear();
 		}
 	}
@@ -68,7 +69,7 @@ const Messages = () => {
 					onPress={handleBack}
 				/>
 				<Avatar source={avatar} />
-				<Title>Isaac</Title>
+				<Title>{params.name}</Title>
 			</Header>
 			<Content />
 			<List<Message>
