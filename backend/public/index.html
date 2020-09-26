@@ -63,7 +63,7 @@
 
 					renderMessage(messageObject);
 
-					socket.emit("sendMessage", messageObject);
+					socket.send(messageObject);
 				}
 			});
 		</script>

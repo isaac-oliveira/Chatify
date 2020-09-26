@@ -20,15 +20,17 @@ function createSocket(server: Server) {
 
 		console.log("Socket conectado:", socket.id, "User ID:", userId);
 
-		socket.on("sendMessage", async (data) => {
+		socket.on("message", async (data) => {
 			console.log(data);
 			const userSendMessage = await users.getUser({ id: userId });
 			const userReceivedMessage = await users.getUser({ id: data.userId });
 			console.log(userReceivedMessage);
 			if (userReceivedMessage.online) {
-				socket
-					.to(userReceivedMessage.socket_id)
-					.emit("receivedMessage", { ...data, name: userSendMessage.name });
+				socket.to(userReceivedMessage.socket_id).emit("receivedMessage", {
+					...data,
+					userId: userSendMessage.id,
+					name: userSendMessage.name,
+				});
 				return;
 			} else {
 				const device = new DeviceLogic();
