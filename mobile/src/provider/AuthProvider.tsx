@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import messaging from '@react-native-firebase/messaging';
 
 import { AuthContext, UserLogin, UserRegister } from '../hooks/useAuth';
 import api from '../services/api';
@@ -49,17 +50,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 	async function login(user: UserLogin) {
 		const { ok, ...response } = await api.post('/login', user);
-
 		if (ok) {
 			const data = response.data as ResponseSuccess;
 			const firstItem = ['@chatify/token', data.token];
 			const secondItem = ['@chatify/userId', JSON.stringify(data.id)];
 			await AsyncStorage.multiSet([firstItem, secondItem]);
 
+			const deviceToken = await messaging().getToken();
+			await api.post('/device', { token: deviceToken });
+
 			setLogged(true);
 		} else {
 			const data = response.data as ResponseError;
-
 			Alert.alert('Ops!', data?.error || 'Servidor não está respondendo');
 		}
 	}
