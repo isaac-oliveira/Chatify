@@ -7,7 +7,7 @@ import HeaderSearch from '../../components/HeaderSearch';
 import List from '../../components/List';
 
 import { Container } from './styles';
-import { getChats } from '../../database/chat';
+import { getChats, insertChat } from '../../database/chat';
 import useMessage from '../../hooks/useMessage';
 
 type ItemRender = ListRenderItem<Chat>;
@@ -31,6 +31,14 @@ const Chats = () => {
 
 	const renderItem: ItemRender = (props: ItemInfo) => {
 		function handleItem() {
+			if (!props.item.viewed) {
+				console.log(props.item);
+				insertChat({
+					id: props.item.id,
+					viewed: true,
+				});
+			}
+
 			navigate('Messages', {
 				userId: props.item.id,
 				name: props.item.name,
