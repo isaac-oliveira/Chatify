@@ -38,7 +38,7 @@ function createSocket(server: Server) {
 					userReceivedMessage.id
 				);
 				if (tokens.length !== 0)
-					sendMessage(tokens, userSendMessage.name, data.message);
+					sendMessage(tokens, userSendMessage, data.message);
 				else console.log("Nenhum token device encontrado");
 			}
 		});

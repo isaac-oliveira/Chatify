@@ -1,8 +1,9 @@
 import admin from "../../services/firebase";
+import { User } from "./user";
 
 export const sendMessage = (
 	token: string | string[],
-	name: string,
+	user: User,
 	message: string
 ) => {
 	admin
@@ -11,11 +12,13 @@ export const sendMessage = (
 			token,
 			{
 				notification: {
-					title: name,
+					title: user.name,
 					body: message,
 				},
 				data: {
 					message,
+					name: user.name,
+					userId: String(user.id),
 				},
 			},
 			{
