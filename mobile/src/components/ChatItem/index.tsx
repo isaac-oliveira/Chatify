@@ -16,9 +16,9 @@ import avatar from '../../assets/images/user_small.png';
 export interface Chat {
 	id: number;
 	name?: string;
-	message: string;
-	viewed: boolean;
-	time: string;
+	message?: string;
+	viewed?: boolean;
+	time?: string;
 }
 
 interface ChatItemProps {
